@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "egarch-2026"
+version = "0.1.0"
+description = "FastAPI service for T-1 fresh EGARCH volatility forecasts."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "arch>=7.2.0",
+    "exchange-calendars>=4.5.0",
+    "fastapi>=0.115.0,<0.138.0",
+    "httpx>=0.27.0",
+    "numpy>=2.0.0",
+    "pandas>=2.2.0",
+    "pydantic>=2.8.0",
+    "pydantic-settings>=2.4.0",
+    "sqlalchemy>=2.0.0",
+    "uvicorn[standard]>=0.30.0",
+    "yfinance>=0.2.40",
+]
+
+[project.optional-dependencies]
+dev = [
+    "httpx2>=2.4.0",
+    "mypy>=1.10.0",
+    "pytest>=8.2.0",
+    "pytest-cov>=5.0.0",
+    "ruff>=0.5.0",
+]
+
+[tool.setuptools.packages.find]
+include = ["egarch_service*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+markers = [
+    "live_provider: tests that call live market-data providers and are skipped by default",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+packages = ["egarch_service"]
